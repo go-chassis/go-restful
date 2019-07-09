@@ -112,6 +112,16 @@ func (r Request) Attribute(name string) interface{} {
 	return r.attributes[name]
 }
 
+// SetPathParameter adds or replaces path parameter with the given value.
+func (r *Request) SetPathParameter(key string, val string) {
+	r.pathParameters[key] = val
+}
+
+// SetPathParameters sets all path parameters to the given map.
+func (r *Request) SetPathParameters(pathParameters map[string]string) {
+	r.pathParameters = pathParameters
+}
+
 // SelectedRoutePath root path + route path that matched the request, e.g. /meetings/{id}/attendees
 func (r Request) SelectedRoutePath() string {
 	return r.selectedRoutePath
