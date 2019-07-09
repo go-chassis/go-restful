@@ -153,3 +153,36 @@ func TestSetAttribute(t *testing.T) {
 		t.Fatalf("missing request attribute:%v", there)
 	}
 }
+
+func TestSetPathParameter(t *testing.T) {
+	bodyReader := strings.NewReader("?")
+	httpRequest, _ := http.NewRequest("GET", "/test", bodyReader)
+	request := NewRequest(httpRequest)
+	request.SetPathParameter("go", "there")
+	there := request.PathParameter("go")
+	if there != "there" {
+		t.Fatalf("missing request path parameter:%v", there)
+	}
+}
+
+func TestSetPathParameters(t *testing.T) {
+	bodyReader := strings.NewReader("?")
+	httpRequest, _ := http.NewRequest("GET", "/test", bodyReader)
+	request := NewRequest(httpRequest)
+	request.SetPathParameters(map[string]string {
+		"go": "there",
+		"hello": "world",
+	})
+	len := len(request.PathParameters())
+	there := request.PathParameter("go")
+	world := request.PathParameter("hello")
+	if len != 2 {
+		t.Fatalf("path parameter length error:%v, which should be 2", len)
+	}
+	if world != "world" {
+		t.Fatalf("missing request path parameter:%v", world)
+	}
+	if there != "there" {
+		t.Fatalf("missing request path parameter:%v", there)
+	}
+}
